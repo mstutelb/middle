@@ -19,10 +19,11 @@ class RandomChar extends React.Component {
   marvelService = new MarvelService();
 
   componentDidMount = () => {
-    const timerId = setInterval(this.updateChar, 3000);
-    this.setState({
-      timerId,
-    });
+    // const timerId = setInterval(this.updateChar, 3000);
+    // this.setState({
+    //   timerId,
+    // });
+    this.updateChar();
   };
 
   componentWillUnmount = () => {

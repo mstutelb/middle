@@ -12,8 +12,12 @@ export default class MarvelService {
     return await res.json();
   };
 
-  getAllCharacters = () => {
-    return this.getResource(`${this._apiBase}characters?apikey=${this._apiKey}&limit=9`);
+  getAllCharacters = ({ offset, pageSize }) => {
+    const urlParams = new URLSearchParams();
+    urlParams.append('apikey', this._apiKey);
+    urlParams.append('limit', pageSize);
+    urlParams.append('offset', offset);
+    return this.getResource(`${this._apiBase}characters?${urlParams.toString()}`);
   };
 
   getCharacter = (id) => {

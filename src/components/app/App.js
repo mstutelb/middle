@@ -5,6 +5,7 @@ import CharInfo from '../charInfo/CharInfo';
 
 import decoration from '../../resources/img/vision.png';
 import React from 'react';
+import ErrorWrapper from '../errorWrapper/ErrorWrapper';
 
 class App extends React.Component {
   state = {
@@ -27,7 +28,9 @@ class App extends React.Component {
           <RandomChar />
           <div className="char__content">
             <CharList onChangeChar={this.onChangeChar} />
-            <CharInfo charId={this.selectedChar} />
+            <ErrorWrapper>
+              <CharInfo charId={this.state.selectedChar} />
+            </ErrorWrapper>
           </div>
           <img className="bg-decoration" src={decoration} alt="vision" />
         </main>

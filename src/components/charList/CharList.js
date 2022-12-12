@@ -7,18 +7,31 @@ class CharList extends React.Component {
   state = {
     list: [],
     isLoading: true,
+    currentPage: 1,
   };
 
+  pageSize = 9;
   marvelService = new MarvelService();
 
   getCharList = async () => {
+    console.log('getCharList');
     this.setState({ isLoading: true });
-    const response = await this.marvelService.getAllCharacters();
+    const offset = (this.state.currentPage - 1) * this.pageSize;
+    const response = await this.marvelService.getAllCharacters({ offset, pageSize: this.pageSize });
     this.setState({ isLoading: false });
-    const list = response.data.results;
-    this.setState({
-      list,
+    const newList = response.data.results;
+    this.setState(({ list }) => ({
+      list: [...list, ...newList],
+    }));
+  };
+
+  loadMore = async () => {
+    await this.setState(({ currentPage }) => {
+      console.log('setState');
+      return { currentPage: currentPage + 1 };
     });
+
+    this.getCharList();
   };
 
   componentDidMount = () => {
@@ -45,7 +58,7 @@ class CharList extends React.Component {
       <div className="char__list">
         {isLoading ? <Spiner /> : null}
         {elementList}
-        <button className="button button__main button__long">
+        <button onClick={this.loadMore} className="button button__main button__long">
           <div className="inner">load more</div>
         </button>
       </div>
